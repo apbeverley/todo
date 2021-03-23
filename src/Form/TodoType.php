@@ -9,7 +9,6 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Length;
 
 class TodoType extends AbstractType
 {
@@ -17,17 +16,19 @@ class TodoType extends AbstractType
     {
         $builder
             ->add('description', TextType::class, [
-                'required' => false,
                 'label' => 'Description',
-                'constraints' => new Length(['max' => 100])
+                'attr' => [
+                    'minlength' => '2',
+                    'maxlength' => '128',
+                    'required' => 'true'
+                ]
             ])
             ->add('important', CheckboxType::class, [
                 'label' => 'Important?',
-                'required' => false
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Create',
-                'attr'  => ['class' => 'btn form-submit']
+                'attr' => ['class' => 'btn btn-primary submit']
             ]);
     }
 
