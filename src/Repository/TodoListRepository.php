@@ -27,8 +27,8 @@ class TodoListRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('todo')
             ->andWhere('todo.status != :status')
             ->setParameter('status', 'deleted')
-            ->addOrderBy('todo.important', 'DESC')
             ->addOrderBy('todo.status', 'DESC')
+            ->addOrderBy('todo.important', 'DESC')
             ->getQuery()
             ->getResult();
     }
