@@ -25,10 +25,10 @@ class TodoListRepository extends ServiceEntityRepository
     public function fetchLiveTodoItems()
     {
         return $this->createQueryBuilder('todo')
-            ->andWhere('todo.deleted = :notDeletedParam')
-            ->setParameter('notDeletedParam', '0')
+            ->andWhere('todo.status != :status')
+            ->setParameter('status', 'deleted')
             ->addOrderBy('todo.important', 'DESC')
-            ->addOrderBy('todo.completed', 'DESC')
+            ->addOrderBy('todo.status', 'DESC')
             ->getQuery()
             ->getResult();
     }
