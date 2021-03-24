@@ -3,54 +3,37 @@
 {% block title %}Todo List{% endblock %}
 
 {% block body %}
+<div class="wrapper">
+    <div class="container mx-auto col-md-5 pt-5">
+        <div class="row pb-4">
+            <div class="col-md-9 p-0">
+                <h1 class="h1">Todo List</h1>
+            </div>
 
-    <div class="container-fluid pt-5">
-        <div class="row justify-content-md-center pb-4">
-            <h1 class="h1 col-md-9">TODO LIST</h1>
+            <div class="col-md-3 p-0 text-end">
+                <a href="/new" class="btn btn-primary mt-2">Add New Todo</a>
+            </div>
         </div>
 
-        <div class="row justify-content-md-center">
-            <div class="col-md-3">
-                <div class="card">
-                    <div class="card-header">
-                        Add List Item
-                    </div>
-                    <div class="card-body">
-                        {{ form_start(form, {'attr': {'class': 'donation-form form-inline'}}) }}
+        <div class="row">
+            <ul id="todo-list" class="col-md-12 list-group p-0">
+                {% for item in todoItems %}
+                    <li class="list-group-item{% if (item.completed == '1') %} disabled{% endif %}">
+                        {% if item.important is same as(1) %}
+                            <i class="fas fa-exclamation-circle text-danger"></i>
+                        {% elseif (item.completed == '1')  %}
+                            <i class="fas fa-check text-success"></i>
+                        {% endif %}
 
-                        <div class="col-md-12 mb-2 mr-sm-2">
-                            {{ form_row(form.description) }}
-                        </div>
+                        {{ item.description }}
 
-                        <div class="col-md-12 mb-2 mr-sm-2">
-                            {{ form_row(form.important) }}
-                        </div>
-
-                        {{ form_end(form) }}
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <ul class="todo-list list-group">
-                    {% for item in todoItems %}
-                        <li class="list-group-item{% if (item.status == 'complete') %} disabled{% endif %}">
-                            {% if item.important is same as(1) %}
-                                <i class="fas fa-exclamation-circle text-danger"></i>
-                            {% elseif (item.status == 'complete')  %}
-                                <i class="fas fa-check text-success"></i>
-                            {% else %}
-                                <i class="fas fa-exclamation-circle text-info"></i>
-                            {% endif %}
-
-                            {{ item.description }}
-
-                            {% if (item.status != 'complete') %}
-                                <a href="/delete/{{ item.id }}" class="text-secondary"><i class="fas fa-trash"></i></a>
-                            {% endif %}
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
+                        {% if (item.completed == '0') %}
+                            <a href="/delete/{{ item.id }}" class="text-secondary"><i class="fas fa-trash"></i></a>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
         </div>
     </div>
+</div>
 {% endblock %}

@@ -14,20 +14,30 @@ class TodoController extends AbstractController
 {
     /**
      * @Route("/", name="todo_index")
-     * @param Request $request
      * @param TodoListRepository $todoListRepo
      * @return Response
      */
-    public function index(Request $request, TodoListRepository $todoListRepo): Response
+    public function index(TodoListRepository $todoListRepo): Response
+    {
+        return $this->render('todo/index.html.twig', [
+            'todoItems' => $todoListRepo->fetchLiveTodoItems()
+        ]);
+    }
+
+    /**
+     * @Route("/new", name="todo_new")
+     * @param Request $request
+     * @return Response
+     */
+    public function new(Request $request): Response
     {
         $todoListEntity = new TodoList();
         //create form
-        $todoListForm = $this->createForm( TodoType::class, $todoListEntity);
+        $todoListForm = $this->createForm(TodoType::class, $todoListEntity);
 
         $todoListForm->handleRequest($request);
 
-        if ($todoListForm->isSubmitted() && $todoListForm->isValid())
-        {
+        if ($todoListForm->isSubmitted() && $todoListForm->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($todoListEntity);
             $entityManager->flush();
@@ -35,9 +45,8 @@ class TodoController extends AbstractController
             return $this->redirectToRoute('todo_index');
         }
 
-        return $this->render('todo/index.html.twig', [
-            'form' => $todoListForm->createView(),
-            'todoItems' => $todoListRepo->fetchLiveTodoItems()
+        return $this->render('todo/new.html.twig', [
+            'form' => $todoListForm->createView()
         ]);
     }
 

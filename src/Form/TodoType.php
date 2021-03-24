@@ -16,7 +16,7 @@ class TodoType extends AbstractType
     {
         $builder
             ->add('description', TextType::class, [
-                'label' => 'Description',
+                'label' => 'Task Description',
                 'attr' => [
                     'minlength' => '2',
                     'maxlength' => '128',
@@ -30,9 +30,16 @@ class TodoType extends AbstractType
                     'value' => '1'
                 ]
             ])
+            ->add('completed', CheckboxType::class, [
+                'label' => 'Completed?',
+                'required' => false,
+                'attr' => [
+                    'value' => '1'
+                ]
+            ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Create',
-                'attr' => ['class' => 'btn btn-primary submit']
+                'attr' => ['class' => 'btn btn-success submit']
             ]);
     }
 

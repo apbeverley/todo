@@ -5,6 +5,7 @@ namespace App\Entity;
 
 use App\Repository\TodoListRepository;
 use Doctrine\ORM\Mapping as ORM;
+use DateTime;
 
 /**
  * @ORM\Entity(repositoryClass=TodoListRepository::class)
@@ -15,45 +16,63 @@ class TodoList
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\Column(name="id", type="integer")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(name="description", type="string", nullable=false, length=100, nullable=true)
      */
     private $description;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(name="important", type="boolean", nullable=true, options={"default":0})
      */
-    private $important = false;
+    private $important = 0;
 
     /**
-     * @ORM\Column(name="status", type="string", columnDefinition="enum('incomplete','complete','deleted')")
+     * @ORM\Column(name="completed", type="boolean", nullable=true, options={"default":0})
      */
-    private $status = 'incomplete';
+    private $completed = 0;
+
+    /**
+     * @ORM\Column(name="deleted", type="boolean", nullable=true, options={"default":0})
+     */
+    private $deleted = 0;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Version
+     * @var DateTime
+     */
+    protected $deletedAt = null;
 
     /**
      * @ORM\Column(type="datetime", nullable=false)
      * @ORM\Version
-     * @var \DateTime
+     * @var DateTime
      */
-    protected $updated = null;
+    protected $updatedAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=false)
      * @ORM\Version
-     * @var \DateTime
+     * @var DateTime
      */
-    protected $created = null;
+    protected $createdAt;
 
     /**
-     * @ORM\PrePersist
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
      */
     public function setCreatedAtValue(): void
     {
-        $this->updated = new \DateTimeImmutable();
+        $dateTime = new \DateTimeImmutable();
+        $this->setUpdatedAt($dateTime);
+
+        if ($this->getCreatedAt() === null) {
+            $this->setCreatedAt($dateTime);
+        }
     }
 
     public function getId(): ?int
@@ -85,50 +104,62 @@ class TodoList
         return $this;
     }
 
-    public function getStatus(): ?string
+    public function getCompleted(): ?bool
     {
-        return $this->status;
+        return $this->completed;
     }
 
-    public function setStatus(string $status): self
+    public function setCompleted(?bool $completed): self
     {
-        $this->status = $status;
+        $this->completed = $completed;
 
         return $this;
     }
 
-    public function getUpdated(): ?\DateTimeInterface
+    public function getDelete(): ?bool
     {
-        return $this->updated;
+        return $this->deleted;
     }
 
-    public function setUpdated(\DateTimeInterface $updated): self
+    public function setDeleted(?bool $deleted): self
     {
-        $this->updated = $updated;
+        $this->completed = $deleted;
 
         return $this;
     }
 
-    public function getTimestamp(): ?string
+    public function getDeletedAt(): ?\DateTimeInterface
     {
-        return $this->timestamp;
+        return $this->deletedAt;
     }
 
-    public function setTimestamp(string $timestamp): self
+    public function setDeletedAt(\DateTimeInterface $deletedAt): self
     {
-        $this->timestamp = $timestamp;
+        $this->deletedAt = $deletedAt;
 
         return $this;
     }
 
-    public function getCreated(): ?\DateTimeInterface
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
-        return $this->created;
+        return $this->updatedAt;
     }
 
-    public function setCreated(\DateTimeInterface $created): self
+    public function setUpdatedAt(\DateTimeInterface $updated): self
     {
-        $this->created = $created;
+        $this->updatedAt = $updated;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $created): self
+    {
+        $this->createdAt = $created;
 
         return $this;
     }

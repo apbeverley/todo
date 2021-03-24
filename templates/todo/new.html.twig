@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Todo List{% endblock %}
+
+{% block body %}
+<div class="wrapper">
+    <div class="container mx-auto col-md-5 pt-5">
+        <div class="row pb-4">
+            <div class="col-md-9 p-0">
+                <h1 class="h1">Todo List</h1>
+            </div>
+
+            <div class="col-md-3 p-0 text-end">
+                <a href="/" class="btn btn-primary mt-2">Back</a>
+            </div>
+        </div>
+
+        <div class="row justify-content-md-center">
+            <div class="col-md-12 p-0">
+                <div class="card">
+                    <div class="card-header">
+                        Add List Item
+                    </div>
+                    <div class="card-body">
+                        {{ form_start(form, {'attr': {'class': 'donation-form form-inline'}}) }}
+
+                        <div class="col-md-12 mb-2 mr-sm-2">
+                            {{ form_row(form.description) }}
+                        </div>
+
+                        <div class="col-md-12 mb-2 mr-sm-2">
+                            {{ form_row(form.important) }}
+                        </div>
+
+                        <div class="col-md-12 mb-2 mr-sm-2">
+                            {{ form_row(form.completed) }}
+                        </div>
+
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
