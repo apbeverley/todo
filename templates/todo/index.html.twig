@@ -18,7 +18,7 @@
         <div class="row">
             <ul id="todo-list" class="col-md-12 list-group p-0">
                 {% for item in todoItems %}
-                    <li class="list-group-item{% if (item.completed == true) %} disabled{% endif %}">
+                    <li class="list-group-item">
                         <div class="row d-flex">
                             <div class="col-md-10">
                                 {% if item.completed == true %}
@@ -34,8 +34,9 @@
                             <div class="col-md-2 text-end">
                                 {% if (item.completed == false) %}
                                     <a href="/update/{{ item.id }}" class="text-success d-inline-block mr-4"><i class="fas fa-edit"></i></a>
-                                    <a href="/delete/{{ item.id }}" class="text-danger d-inline-block"><i class="fas fa-trash"></i></a>
                                 {% endif %}
+
+                                <a href="/delete/{{ item.id }}" class="text-danger d-inline-block"><i class="fas fa-trash"></i></a>
                             </div>
                         </div>
                     </li>
