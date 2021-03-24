@@ -28,7 +28,7 @@ class TodoListRepository extends ServiceEntityRepository
             ->andWhere('todoList.deleted = :deleted')
             ->setParameter('deleted', '0')
             ->addOrderBy('todoList.completed', 'ASC')
-            ->addOrderBy('todoList.important', 'ASC')
+            ->addOrderBy('todoList.important', 'DESC')
             ->getQuery()
             ->getResult();
     }
