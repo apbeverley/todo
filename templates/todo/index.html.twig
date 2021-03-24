@@ -33,7 +33,21 @@
             <div class="col-md-6">
                 <ul class="todo-list list-group">
                     {% for item in todoItems %}
-                        <li class="list-group-item">{{ item.description }}</li>
+                        <li class="list-group-item{% if (item.status == 'complete') %} disabled{% endif %}">
+                            {% if item.important is same as(1) %}
+                                <i class="fas fa-exclamation-circle text-danger"></i>
+                            {% elseif (item.status == 'complete')  %}
+                                <i class="fas fa-check text-success"></i>
+                            {% else %}
+                                <i class="fas fa-exclamation-circle text-info"></i>
+                            {% endif %}
+
+                            {{ item.description }}
+
+                            {% if (item.status != 'complete') %}
+                                <a href="/delete/{{ item.id }}" class="text-secondary"><i class="fas fa-trash"></i></a>
+                            {% endif %}
+                        </li>
                     {% endfor %}
                 </ul>
             </div>
