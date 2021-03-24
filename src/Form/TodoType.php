@@ -25,6 +25,10 @@ class TodoType extends AbstractType
             ])
             ->add('important', CheckboxType::class, [
                 'label' => 'Important?',
+                'required' => false,
+                'attr' => [
+                    'value' => '1'
+                ]
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Create',

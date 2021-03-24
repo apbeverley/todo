@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Entity;
 
 use App\Repository\TodoListRepository;
@@ -7,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=TodoListRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class TodoList
 {
@@ -23,24 +25,36 @@ class TodoList
     private $description;
 
     /**
-     * @ORM\Column(type="smallint", nullable=true)
+     * @ORM\Column(type="boolean")
      */
-    private $important;
+    private $important = false;
 
     /**
-     * @ORM\Column(type="string", length=8)
+     * @ORM\Column(name="status", type="string", columnDefinition="enum('incomplete','complete','deleted')")
      */
-    private $status;
+    private $status = 'incomplete';
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=false)
+     * @ORM\Version
+     * @var \DateTime
      */
-    private $updated;
+    protected $updated = null;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=false)
+     * @ORM\Version
+     * @var \DateTime
      */
-    private $created;
+    protected $created = null;
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue(): void
+    {
+        $this->updated = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
@@ -59,12 +73,12 @@ class TodoList
         return $this;
     }
 
-    public function getImportant(): ?int
+    public function getImportant(): ?bool
     {
         return $this->important;
     }
 
-    public function setImportant(?int $important): self
+    public function setImportant(?bool $important): self
     {
         $this->important = $important;
 
