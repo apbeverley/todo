@@ -36,18 +36,6 @@ class TodoList
     private $completed = 0;
 
     /**
-     * @ORM\Column(name="deleted", type="boolean", nullable=true, options={"default":0})
-     */
-    private $deleted = 0;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     * @ORM\Version
-     * @var DateTime
-     */
-    protected $deletedAt = null;
-
-    /**
      * @ORM\Column(type="datetime", nullable=false)
      * @ORM\Version
      * @var DateTime
