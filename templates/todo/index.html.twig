@@ -16,32 +16,36 @@
         </div>
 
         <div class="row">
-            <ul id="todo-list" class="col-md-12 list-group p-0">
-                {% for item in todoItems %}
-                    <li class="list-group-item">
-                        <div class="row d-flex">
-                            <div class="col-md-10">
-                                {% if item.completed == true %}
-                                    <i class="fas fa-check text-success"></i>
-                                {% elseif item.important == true  %}
-                                    <i class="fas fa-exclamation-circle text-danger"></i>
-                                {% endif %}
+            {% if todoItems is empty %}
+                <p>Well done! You have done all your items.</p>
+            {% else %}
+                <ul id="todo-list" class="col-md-12 list-group p-0">
+                    {% for item in todoItems %}
+                        <li class="list-group-item">
+                            <div class="row d-flex">
+                                <div class="col-md-10">
+                                    {% if item.completed == true %}
+                                        <i class="fas fa-check text-success"></i>
+                                    {% elseif item.important == true  %}
+                                        <i class="fas fa-exclamation-circle text-danger"></i>
+                                    {% endif %}
 
-                                <span{% if (item.completed == true) %} class="text-decoration-line-through"{% endif %}>
-                                    {{ item.description|escape }}
-                                </span>
-                            </div>
-                            <div class="col-md-2 text-end">
-                                {% if (item.completed == false) %}
-                                    <a href="/update/{{ item.id }}" class="text-success d-inline-block mr-4"><i class="fas fa-edit"></i></a>
-                                {% endif %}
+                                    <span{% if (item.completed == true) %} class="text-decoration-line-through"{% endif %}>
+                                        {{ item.description|escape }}
+                                    </span>
+                                </div>
+                                <div class="col-md-2 text-end">
+                                    {% if (item.completed == false) %}
+                                        <a href="/update/{{ item.id }}" class="text-success d-inline-block mr-4"><i class="fas fa-edit"></i></a>
+                                    {% endif %}
 
-                                <a href="/delete/{{ item.id }}" class="text-danger d-inline-block"><i class="fas fa-trash"></i></a>
+                                    <a href="/delete/{{ item.id }}" class="text-danger d-inline-block"><i class="fas fa-trash"></i></a>
+                                </div>
                             </div>
-                        </div>
-                    </li>
-                {% endfor %}
-            </ul>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
         </div>
     </div>
 </div>
